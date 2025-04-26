@@ -1,0 +1,19 @@
+@startuml
+component "用户端\n(微信小程序)" as UserClient
+component "管理端\n(Vue.js)" as AdminClient
+component "负载均衡\n(Nginx)" as Nginx
+component "后端服务\n(Spring Boot)" as Backend {
+    component "用户服务" as UserService
+    component "商品服务" as GoodsService
+    component "订单服务" as OrderService
+    component "支付服务" as PayService
+    component "权限服务" as AuthService
+}
+database "MySQL" as DB
+database "Redis" as Cache
+UserClient --> Nginx : HTTP/HTTPS请求
+AdminClient --> Nginx : HTTP/HTTPS请求
+Nginx --> Backend : 转发请求
+Backend --> DB : MyBatis操作
+Backend --> Cache : 读写缓存
+@enduml

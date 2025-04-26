@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.CollectInfoDao">
+  <select id="findByName" resultType="com.example.entity.CollectInfo">
+        select * from collect_info
+    </select>
+    <select id="findByUser" parameterType="com.example.entity.CollectInfo" resultType="com.example.entity.CollectInfo">
+        select * from collect_info
+        <where>
+            <if test="userId != null and userId != 0">
+                and userId = #{userId}
+            </if>
+            <if test="level != null and level != 0">
+                and `level` = #{level}
+            </if>
+            <if test="foreignId != null and foreignId != 0">
+                and foreignId = #{foreignId}
+            </if>
+        </where>
+    </select>
+    <select id="findByEndUserId" resultType="com.example.entity.CollectInfo">
+        SELECT c.* FROM
+        (
+        SELECT a.* FROM collect_info AS a
+        where 1=1
+        ) AS c
+        LEFT JOIN goods_info AS d ON c.foreignId = d.id
+        WHERE c.userId = #{userId} and c.level = #{level}
+        GROUP BY c.id
+    </select>
+
+</mapper>

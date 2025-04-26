@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="inputView">
+    <text class="label">桌号：</text>
+    <input type="text"  maxlength="250" bindinput="onInput" data-typename='address' value="{{addressInfo.address}}"></input>
+  </view>
+  <view class="inputView">
+    <text class="label">用餐人数：</text>
+    <input type="text"  maxlength="30" bindinput="onInput" data-typename='name' value="{{addressInfo.name}}"></input>
+  </view>
+  <text class="btn-save" bindtap="operate">保存</text>
+</view>

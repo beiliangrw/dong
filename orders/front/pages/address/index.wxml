@@ -1,0 +1,19 @@
+
+
+<view class="nx_line">
+    <view class="nx_line_list">
+      <block wx:if="{{addressList.length !== -1}}" wx:for="{{addressList}}" wx:key='item'>
+        <view class="nx_line_item" bindtap="onItemClick" bindlongtap="onItemLongClick" data-index="{{index}}">
+          <view class="nx_line_mid">
+            <view style="color: #000;padding-top: 20rpx">桌号：{{item.address}}</view>
+            <view style="color: #000; padding: 15rpx 0">用餐人数：{{item.name}}</view>
+
+          </view>
+       
+        <view style="text-align: right; padding: 40rpx 0 20rpx 0;">
+          <text class="btn" style="background-color: green; color: #fff" catchtap="editItem" data-index="{{index}}">编辑</text>
+        </view>
+      </view>
+      </block>
+    </view>
+  </view>

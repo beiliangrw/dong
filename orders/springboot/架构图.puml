@@ -1,0 +1,67 @@
+@startuml
+left to right direction
+skinparam nodesep 40
+skinparam ranksep 30
+skinparam packageBackgroundColor #F5F5F5
+
+!define LAYER_COLOR #DDDDDD
+
+package "安装层" <<LAYER_COLOR>> {
+  component "Promethean" as prom
+  component "Grafmarki菜单" as grafana
+  component "控制面板" as cpanel
+  component "Docker管理器" as docker
+  component "MySQL锁紧" as mysql_lock
+  component "服务锁紧" as svc_lock
+  component "Rede锁紧" as redis_lock
+}
+
+package "显示层" <<LAYER_COLOR>> {
+  component "Spring Cloud Gateway" as gateway
+  component "路由协议" as route_proto
+  component "Nikon配置中心" as nacos {
+    [配置管理]
+  }
+
+  package "微服务集群" <<LAYER_COLOR>> {
+    component "用户服务" as user_svc
+    component "订单服务" as order_svc
+    component "消息服务" as msg_svc
+  }
+
+  component "接口质量" as api_qos
+  component "REST14 API" as rest_api
+  component "Swagger文档" as swagger
+}
+
+package "底部层" <<LAYER_COLOR>> {
+  database "MySQL" as mysql {
+    [用户表(release_info)]
+    [订单表(kitcube_info)]
+    [消息表(kipcode_info)]
+  }
+
+  database "Restle缓存" as redis {
+    [消息缓存]
+    [Session管理]
+  }
+}
+
+' 连接关系
+安装层 --> 显示层 : 系统配置
+gateway --> nacos : 配置同步
+gateway --> 微服务集群 : 路由分发
+微服务集群 --> mysql : 数据持久化
+微服务集群 --> redis : 缓存读写
+mysql .right.> redis : 缓存同步
+
+' 组件映射注释
+note top of prom
+  **技术映射**：
+  WX3M/WX5S组件 -> Vue管理端
+  VITR/USCH -> 响应式代码
+  Everest UI -> Element UI
+  Acoust驱动 -> Axios拦截器
+end note
+
+@enduml
